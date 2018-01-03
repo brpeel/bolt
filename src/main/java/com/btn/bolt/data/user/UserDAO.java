@@ -7,6 +7,6 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 @RegisterMapper(UserDBMapper.class)
 public interface UserDAO {
 
-    @SqlQuery("SELECT 1 as id, 'Brett' as first_name, 'Peel' as last_name, 'bpeel56@gmail.com' as email, 0 as points")
+    @SqlQuery("SELECT * FROM bolt_user")
     User getUser(@Bind("id") long id);
 }
