@@ -1,0 +1,61 @@
+
+
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+group 'btn'
+version '1.0-SNAPSHOT'
+description 'Button User Transfer API'
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+def dropWizardVersion = '1.2.2'
+
+dependencies {
+
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-auth', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-jackson', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-migrations', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-client', version: dropWizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-metrics', version: dropWizardVersion
+    compile group: 'org.postgresql', name: 'postgresql', version: '9.3-1100-jdbc4'
+
+    testCompile group: 'org.spockframework', name:'spock-core', version:'1.1-groovy-2.4'
+}
+
+mainClassName = 'com.btn.bolt.application.BoltApplication'
+
+run {
+    args = ['server', 'config.yml']
+}
+
+shadowJar {
+    mergeServiceFiles()
+    exclude 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.SF'
+    manifest {
+        attributes 'Implementation-Title': rootProject.name
+        attributes 'Implementation-Version': rootProject.version
+        attributes 'Implementation-Vendor-Id': rootProject.group
+        attributes 'Build-Time': ZonedDateTime.now(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_ZONED_DATE_TIME)
+        attributes 'Built-By': InetAddress.localHost.hostName
+        attributes 'Created-By': 'Gradle ' + gradle.gradleVersion
+        attributes 'Main-Class': mainClassName
+    }
+    archiveName 'bolt-api.jar'
+}
