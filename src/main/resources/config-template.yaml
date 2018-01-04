@@ -3,13 +3,13 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: bpeel
+  user: <db_user>
 
   # the password
-  password: bolt
+  password: <db_password>
 
   # the JDBC URL
-  url: jdbc:postgresql://localhost:5432/bolt
+  url: jdbc:postgresql://<db_url>/<db_name>
 
   # any properties specific to your JDBC driver:
   properties:

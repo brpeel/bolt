@@ -57,18 +57,22 @@ run {
     args = ['server', 'src/main/resources/config.yaml']
 }
 
+run.onlyIf {
+    def configFile = new File( 'src/main/resources/config.yaml' )
+
+    if (!configFile.exists()) {
+        project.logger.error("Aborting run command because the application config file does not exist")
+        return false
+    }
+    return true
+}
+
 test {
     testLogging {
         events "passed", "skipped","failed"
         showExceptions = true
         exceptionFormat = 'full'
     }
-}
-
-task integrationTest(type: Test) {
-    testClassesDir = sourceSets.integrationTest.output.classesDir
-    classpath = sourceSets.integrationTest.runtimeClasspath
-    outputs.upToDateWhen { false }
 }
 
 shadowJar {
