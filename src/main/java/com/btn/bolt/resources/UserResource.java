@@ -34,11 +34,12 @@ public class UserResource implements Resource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response post(@Context HttpServletRequest request, User user) {
 
         try {
             long userId = controller.create(user);
-            return Response.noContent().header("Location", new URI("" + userId)).build();
+            return Response.noContent().header("Location", new URI("api/user/" + userId)).build();
         } catch (Exception e) {
             logger.error("Could not create user", e);
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
