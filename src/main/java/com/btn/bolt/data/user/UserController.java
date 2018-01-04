@@ -16,12 +16,12 @@ public class UserController implements Controller<User> {
     }
 
     @Override
-    public boolean insert(User obj) {
-        return false;
+    public long create(User user) {
+        return dao.insert(user);
     }
 
     @Override
-    public boolean delete(long id) {
-        return false;
+    public void delete(long id) {
+        dao.delete(id);
     }
 }

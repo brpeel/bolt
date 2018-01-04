@@ -28,16 +28,16 @@ public class UserResource implements Resource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User get(@PathParam("id") int id ) {
+    public User get(@PathParam("id") long id ) {
         return controller.get(id);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@Context HttpServletRequest request, User user) {
+    public Response post(@Context HttpServletRequest request, User user) {
 
         try {
-            int userId = 0;
+            long userId = controller.create(user);
             return Response.noContent().header("Location", new URI("" + userId)).build();
         } catch (Exception e) {
             logger.error("Could not create user", e);
@@ -45,13 +45,13 @@ public class UserResource implements Resource {
         }
     }
 
-
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id) {
 
         try {
+            controller.delete(id);
             return Response.ok().build();
         } catch (Exception e) {
             logger.error("Could not delete user " + id, e);
