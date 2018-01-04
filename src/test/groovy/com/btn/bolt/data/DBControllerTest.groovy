@@ -97,4 +97,18 @@ class DBControllerTest extends Specification {
         result == null
         noExceptionThrown()
     }
+
+    def "Creating a transfer results in inserting into the transfer table and updating the points on the user record"(){
+        given:
+        Transfer transfer = new Transfer()
+        transfer.userId = 1
+        transfer.points = 100
+
+        when:
+        controller.createTransfer(transfer)
+
+        then:
+        1 * userDao.updatePoints(1, 100)
+        1 * transferDao.insert(transfer)
+    }
 }

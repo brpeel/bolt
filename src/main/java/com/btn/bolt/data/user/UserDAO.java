@@ -16,10 +16,9 @@ public interface UserDAO {
     @GetGeneratedKeys
     long insert(@BindBean("i") User i);
 
-
     @SqlUpdate("UPDATE bolt_user SET deleted = true WHERE id = :id")
     void delete(@Bind("id") long id);
 
-    @SqlUpdate("UPDATE bolt_user SET points += :transfer.points WHERE id = :transfer.userId")
-    void updatePoints(@BindBean("transfer") Transfer transfer);
+    @SqlUpdate("UPDATE bolt_user SET points += :points WHERE id = :userId")
+    void updatePoints(@Bind("userId") long userId, @Bind("points") long points);
 }

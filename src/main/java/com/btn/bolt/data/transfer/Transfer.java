@@ -24,6 +24,10 @@ public class Transfer {
         this.points = points;
     }
 
+    public Transfer() {
+
+    }
+
     public long getId() {
         return id;
     }

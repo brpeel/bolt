@@ -41,7 +41,7 @@ public class DBController implements Controller {
     @Override
     @Transaction
     public long createTransfer(Transfer transfer) {
-        userDAO.updatePoints(transfer);
+        userDAO.updatePoints(transfer.getUserId(), transfer.getPoints());
         return transferDAO.insert(transfer);
     }
 }
