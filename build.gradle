@@ -89,3 +89,54 @@ shadowJar {
     }
     archiveName 'bolt-api.jar'
 }
+
+def replace(line, Map map) {
+    for ( e in map ) {
+        line = line.replaceAll( e.key, e.value )
+    }
+    line
+}
+
+task setup(type:Task) {
+
+    def replacements = [
+            "<db_user>" : project.getProperty("dbUser"),
+            "<db_password>" : project.getProperty("dbPassword"),
+            "<db_url>" : project.getProperty("dbUrl"),
+            "<db_name>" : project.getProperty("dbName")
+    ]
+    /*
+    File configTemplate = new File('src/main/resources/config-template.yaml')
+    String config = configTemplate.readLines()
+
+    config = config.replace('<db_user>', dbUser)
+    config = config.replace('<db_password>', dbPassword)
+    config = config.replace('<db_url>', dbUrl)
+    config = config.replace('<db_name>', dbName)
+
+    println(config)
+
+    File configFile = new File('src/main/resources/config.yaml')
+    def writer = configFile.newWriter()
+
+    writer.write(config)
+    writer.flush()
+    writer.close()
+    */
+
+    new File( 'src/main/resources/config.yaml' ).withWriter { w ->
+        new File( 'src/main/resources/config-template.yaml' ).eachLine { line ->
+            w << replace(line, replacements) + System.getProperty("line.separator")
+        }
+    }
+
+
+}
+
+setup.onlyIf {
+    (project.hasProperty("dbUser")
+    && project.hasProperty("dbPassword")
+    && project.hasProperty("dbUrl")
+    && project.hasProperty("dbName"))
+}
+
