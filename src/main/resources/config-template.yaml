@@ -9,7 +9,7 @@ database:
   password: <db_password>
 
   # the JDBC URL
-  url: jdbc:postgresql://<db_url>/<db_name>
+  url: jdbc:postgresql://<db_host>/<db_name>
 
   # any properties specific to your JDBC driver:
   properties:
