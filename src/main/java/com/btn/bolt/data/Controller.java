@@ -1,9 +1,17 @@
 package com.btn.bolt.data;
 
-import java.util.List;
+import com.btn.bolt.data.transfer.Transfer;
+import com.btn.bolt.data.user.User;
 
-public interface Controller<T> {
-    T get(long id);
-    default long create(T obj) { return 0; }
-    default void delete(long id) {}
+public interface Controller {
+    User getUser(long id);
+
+    long createUser(User obj);
+
+    void deleteUser(long id);
+
+    Transfer getTransfer(long id);
+
+    long createTransfer(Transfer transfer);
+
 }

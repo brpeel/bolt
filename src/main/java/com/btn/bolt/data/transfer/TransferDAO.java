@@ -1,4 +1,15 @@
 package com.btn.bolt.data.transfer;
 
-public class TransferDAO {
+import com.btn.bolt.data.user.User;
+import org.skife.jdbi.v2.sqlobject.*;
+
+public interface TransferDAO {
+    @SqlQuery("SELECT id, user_id, points FROM transfer WHERE id = :id")
+    Transfer get(@Bind("id") long id);
+
+    @SqlUpdate("INSERT INTO transfer (user_id, points) " +
+            "VALUES (:i.user_id, :i.points)")
+    @GetGeneratedKeys
+    long insert(@BindBean("i") Transfer i);
+
 }

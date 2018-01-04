@@ -23,8 +23,20 @@ repositories {
     mavenCentral()
 }
 
-def dropWizardVersion = '1.2.2'
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/groovy']
+        }
+    }
+}
 
+def dropWizardVersion = '1.2.2'
 dependencies {
 
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropWizardVersion
@@ -43,6 +55,14 @@ mainClassName = 'com.btn.bolt.application.BoltApplication'
 
 run {
     args = ['server', 'config.yml']
+}
+
+test {
+    testLogging {
+        events "passed", "skipped","failed"
+        showExceptions = true
+        exceptionFormat = 'full'
+    }
 }
 
 shadowJar {

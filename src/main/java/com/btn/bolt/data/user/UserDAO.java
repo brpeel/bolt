@@ -1,5 +1,6 @@
 package com.btn.bolt.data.user;
 
+import com.btn.bolt.data.transfer.Transfer;
 import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
@@ -19,4 +20,6 @@ public interface UserDAO {
     @SqlUpdate("UPDATE bolt_user SET deleted = true WHERE id = :id")
     void delete(@Bind("id") long id);
 
+    @SqlUpdate("UPDATE bolt_user SET points += :transfer.points WHERE id = :transfer.userId")
+    void updatePoints(@BindBean("transfer") Transfer transfer);
 }

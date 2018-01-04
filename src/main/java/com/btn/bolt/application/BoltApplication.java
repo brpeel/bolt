@@ -1,8 +1,8 @@
 package com.btn.bolt.application;
 
 import com.btn.bolt.data.Controller;
-import com.btn.bolt.data.user.User;
-import com.btn.bolt.data.user.UserController;
+import com.btn.bolt.data.DBController;
+import com.btn.bolt.data.transfer.TransferDAO;
 import com.btn.bolt.data.user.UserDAO;
 import com.btn.bolt.resources.*;
 import com.codahale.metrics.health.HealthCheck;
@@ -56,9 +56,10 @@ public class BoltApplication extends io.dropwizard.Application<BoltConfiguration
 
 
     private void registerResources(Environment environment, DBI jdbi) {
-        UserController userController = new UserController(jdbi.onDemand(UserDAO.class));
+        Controller dbController = new DBController(jdbi.onDemand(UserDAO.class), jdbi.onDemand(TransferDAO.class));
 
-        registerResource(environment, new UserResource(userController));
+        registerResource(environment, new UserResource(dbController));
+        registerResource(environment, new TransferResource(dbController));
     }
 
     private void registerResource(Environment environment, Resource resource) {

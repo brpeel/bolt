@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest
 class UserResourceTest extends Specification {
 
     UserResource resource
-    Controller<User> controller = Mock(Controller)
+    Controller controller = Mock(Controller)
 
     void setup() {
         resource = new UserResource(controller)
     }
 
-    def "Get calls get on the UserController"() {
+    def "Get calls getUser on the UserController"() {
 
         given:
         long id = 1
@@ -24,7 +24,7 @@ class UserResourceTest extends Specification {
         resource.get(id)
 
         then:
-        1 * controller.get(id)
+        1 * controller.getUser(id)
     }
 
     def "Post calls create on the UserController"() {
@@ -35,7 +35,7 @@ class UserResourceTest extends Specification {
         resource.post(Mock(HttpServletRequest), user)
 
         then:
-        1 * controller.create(user)
+        1 * controller.createUser(user)
     }
 
     def "Delete calls delete on the UserController"() {
@@ -47,6 +47,6 @@ class UserResourceTest extends Specification {
         resource.delete(id)
 
         then:
-        1 * controller.delete(id)
+        1 * controller.deleteUser(id)
     }
 }
