@@ -57,19 +57,18 @@ run {
     args = ['server', 'src/main/resources/config.yaml']
 }
 
-
-task myRun(type: JavaExec) {
-    classpath sourceSets.main.runtimeClasspath
-    main = mainClassName
-    args 'server', 'config.yml'
-}
-
 test {
     testLogging {
         events "passed", "skipped","failed"
         showExceptions = true
         exceptionFormat = 'full'
     }
+}
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
 }
 
 shadowJar {
