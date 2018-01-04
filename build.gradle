@@ -4,10 +4,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-plugins {
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
-}
-
 group 'btn'
 version '1.0-SNAPSHOT'
 description 'Button User Transfer API'
@@ -15,6 +11,20 @@ description 'Button User Transfer API'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'groovy'
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+        classpath 'org.codehaus.groovy:groovy-all:2.4.10'
+    }
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -23,18 +33,6 @@ repositories {
     mavenCentral()
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-    }
-    test {
-        java {
-            srcDirs = ['src/test/groovy']
-        }
-    }
-}
 
 def dropWizardVersion = '1.2.2'
 dependencies {
@@ -48,13 +46,22 @@ dependencies {
     compile group: 'io.dropwizard', name: 'dropwizard-metrics', version: dropWizardVersion
     compile group: 'org.postgresql', name: 'postgresql', version: '9.3-1100-jdbc4'
 
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.11'
     testCompile group: 'org.spockframework', name:'spock-core', version:'1.1-groovy-2.4'
 }
 
 mainClassName = 'com.btn.bolt.application.BoltApplication'
 
 run {
-    args = ['server', 'config.yml']
+    args = ['server', 'src/main/resources/config.yaml']
+}
+
+
+task myRun(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = mainClassName
+    args 'server', 'config.yml'
 }
 
 test {
