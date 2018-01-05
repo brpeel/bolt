@@ -19,6 +19,6 @@ public interface UserDAO {
     @SqlUpdate("UPDATE bolt_user SET deleted = true WHERE id = :id")
     void delete(@Bind("id") long id);
 
-    @SqlUpdate("UPDATE bolt_user SET points += :points WHERE id = :userId")
+    @SqlUpdate("UPDATE bolt_user SET points = points + :points WHERE id = :userId")
     void updatePoints(@Bind("userId") long userId, @Bind("points") long points);
 }

@@ -99,36 +99,28 @@ def replace(line, Map map) {
 
 task setup(type:Task) {
 
-    def replacements = [
-            "<db_user>" : project.getProperty("dbUser"),
-            "<db_password>" : project.getProperty("dbPassword"),
-            "<db_host>" : project.getProperty("dbHost"),
-            "<db_name>" : project.getProperty("dbName")
-    ]
+    doLast {
+        if (project.hasProperty("dbUser")
+                && project.hasProperty("dbPassword")
+                && project.hasProperty("dbHost")
+                && project.hasProperty("dbName")) {
+            def replacements = [
+                    "<db_user>"    : project.getProperty("dbUser"),
+                    "<db_password>": project.getProperty("dbPassword"),
+                    "<db_host>"    : project.getProperty("dbHost"),
+                    "<db_name>"    : project.getProperty("dbName")
+            ]
 
-    new File( 'src/main/resources/config.yaml' ).withWriter { w ->
-        new File( 'src/main/resources/config-template.yaml' ).eachLine { line ->
-            w << replace(line, replacements) + System.getProperty("line.separator")
+            new File('src/main/resources/config.yaml').withWriter { w ->
+                new File('src/main/resources/config-template.yaml').eachLine { line ->
+                    w << replace(line, replacements) + System.getProperty("line.separator")
+                }
+            }
+        } else {
+            project.logger.error("Aborting setup command. Please pass the following command line arguments -PdbUser, -PdbPassword, -PdbHost, -PdbName")
+
         }
     }
-
-
 }
 
-setup.onlyIf {
-
-    if (project.hasProperty("dbUser")
-            && project.hasProperty("dbPassword")
-            && project.hasProperty("dbHost")
-            && project.hasProperty("dbName")) {
-        return true
-    }
-    else {
-        project.logger.error("Aborting setup command. Please pass the following command line arguments -PdbUser, -PdbPassword, -PdbHost, -PdbName")
-        return false
-    }
-
-
-
-}
 

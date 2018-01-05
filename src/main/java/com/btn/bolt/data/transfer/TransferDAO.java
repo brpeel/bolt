@@ -10,7 +10,7 @@ public interface TransferDAO {
     Transfer get(@Bind("id") long id);
 
     @SqlUpdate("INSERT INTO transfer (user_id, points) " +
-            "VALUES (:i.user_id, :i.points)")
+            "VALUES (:i.userId, :i.points)")
     @GetGeneratedKeys
     long insert(@BindBean("i") Transfer i);
 }

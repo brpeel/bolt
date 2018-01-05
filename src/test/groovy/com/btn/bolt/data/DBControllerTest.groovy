@@ -108,7 +108,6 @@ class DBControllerTest extends Specification {
         controller.createTransfer(transfer)
 
         then:
-        1 * userDao.updatePoints(1, 100)
         1 * transferDao.insert(transfer)
     }
 }

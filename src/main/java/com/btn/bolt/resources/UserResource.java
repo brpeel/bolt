@@ -27,6 +27,7 @@ public class UserResource implements Resource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public User get(@PathParam("id") long id ) {
+
         return controller.getUser(id);
     }
 

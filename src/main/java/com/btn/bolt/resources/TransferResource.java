@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.Optional;
 
+@Path("api/transfer")
 public class TransferResource implements Resource {
 
     private static final Logger logger = LoggerFactory.getLogger(UserResource.class);

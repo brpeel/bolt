@@ -4,9 +4,8 @@ import com.btn.bolt.data.transfer.Transfer;
 import com.btn.bolt.data.transfer.TransferDAO;
 import com.btn.bolt.data.user.User;
 import com.btn.bolt.data.user.UserDAO;
+import org.skife.jdbi.v2.TransactionIsolationLevel;
 import org.skife.jdbi.v2.sqlobject.Transaction;
-
-import java.util.Optional;
 
 public class DBController implements Controller {
 
@@ -39,7 +38,6 @@ public class DBController implements Controller {
     }
 
     @Override
-    @Transaction
     public long createTransfer(Transfer transfer) {
         userDAO.updatePoints(transfer.getUserId(), transfer.getPoints());
         return transferDAO.insert(transfer);
